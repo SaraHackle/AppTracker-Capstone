@@ -1,0 +1,108 @@
+﻿using AppTrackerMVC.Models;
+using AppTrackerMVC.Repositories;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
+namespace AppTrackerMVC.Controllers
+{
+    public class ApplicationController : Controller
+    {
+        private readonly IApplicationRepository _appRepo;
+
+        public ApplicationController(IApplicationRepository appRepo)
+        {
+            _appRepo = appRepo;
+           
+        }
+        // GET: ApplicationController
+        public ActionResult Index()
+        {
+            int userId = GetCurrentUserId();
+          
+            List<Application> applications = _appRepo.GetAllApplicationsByUser(userId);
+            return View(applications);
+        }
+
+        // GET: ApplicationController/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        // GET: ApplicationController/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: ApplicationController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: ApplicationController/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: ApplicationController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: ApplicationController/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: ApplicationController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        private int GetCurrentUserId()
+        {
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (id == null)
+            { id = "0"; }
+            return int.Parse(id);
+
+        }
+    }
+}
