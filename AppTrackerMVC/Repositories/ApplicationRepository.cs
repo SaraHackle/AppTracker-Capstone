@@ -140,6 +140,40 @@ namespace AppTrackerMVC.Repositories
             }
         }
 
+        public void Update(Application application)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            UPDATE Application
+                            SET 
+                                Company = @company, 
+                                Location = @location, 
+                                Description = @description, 
+                                DateApplied = @dateApplied,
+                                Salary = @salary,
+                                UserId = @userId
+                            WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue( "@company", application.Company);
+                    cmd.Parameters.AddWithValue("@location", application.Location);
+                    cmd.Parameters.AddWithValue("@description", application.Description);
+                    cmd.Parameters.AddWithValue("@dateApplied", application.DateApplied);
+                    cmd.Parameters.AddWithValue("@salary", application.Salary);
+                    cmd.Parameters.AddWithValue("@userId", application.UserId);
+                    cmd.Parameters.AddWithValue("@id", application.Id);
+
+
+                    cmd.ExecuteNonQuery();
+                }
+
+            }
+
+        }
+
         private Application NewApplicationFromReader(SqlDataReader reader)
         {
             Application application = new Application()

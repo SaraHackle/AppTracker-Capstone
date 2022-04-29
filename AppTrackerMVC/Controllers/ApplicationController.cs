@@ -65,17 +65,21 @@ namespace AppTrackerMVC.Controllers
         // GET: ApplicationController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Application application = _appRepo.GetById(id);
+            return View(application);
         }
 
         // POST: ApplicationController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Application application)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                application.UserId = GetCurrentUserId();
+                _appRepo.Update(application);
+
+                return RedirectToAction("Index");
             }
             catch
             {
