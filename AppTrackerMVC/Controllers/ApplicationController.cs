@@ -37,21 +37,28 @@ namespace AppTrackerMVC.Controllers
         // GET: ApplicationController/Create
         public ActionResult Create()
         {
-            return View();
+                int userId = GetCurrentUserId();
+                List<Application> applications = _appRepo.GetAllApplicationsByUser(userId);
+                return View();
+            
+         
         }
 
         // POST: ApplicationController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Application application)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                application.UserId = GetCurrentUserId();
+                _appRepo.Add(application);
+                return RedirectToAction("Details", "Application", new { id = application.Id });
             }
             catch
             {
-                return View();
+
+                return View(application);
             }
         }
 

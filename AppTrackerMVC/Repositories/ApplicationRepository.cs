@@ -133,7 +133,7 @@ namespace AppTrackerMVC.Repositories
                     cmd.Parameters.AddWithValue("@description", application.Description);
                     cmd.Parameters.AddWithValue("@dateApplied", application.DateApplied);
                     cmd.Parameters.AddWithValue("@salary", application.Salary);
-                    cmd.Parameters.AddWithValue("@userId", application.User.FirebaseUserId);
+                    cmd.Parameters.AddWithValue("@userId", application.UserId);
 
                     application.Id = (int)cmd.ExecuteScalar();
                 }
