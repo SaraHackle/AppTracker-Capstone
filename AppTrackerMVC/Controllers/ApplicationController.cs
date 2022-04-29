@@ -31,7 +31,8 @@ namespace AppTrackerMVC.Controllers
         // GET: ApplicationController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            Application application = _appRepo.GetById(id);
+            return View(application);
         }
 
         // GET: ApplicationController/Create
