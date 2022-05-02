@@ -90,22 +90,25 @@ namespace AppTrackerMVC.Controllers
 
         // GET: ApplicationController/Delete/5
         public ActionResult Delete(int id)
+
         {
-            return View();
+            Application application = _appRepo.GetById(id);
+            return View(application);
         }
 
         // POST: ApplicationController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Application application)
         {
             try
             {
+                _appRepo.Delete(id);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(application);
             }
         }
         private int GetCurrentUserId()
