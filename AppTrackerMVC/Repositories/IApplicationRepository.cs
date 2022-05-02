@@ -11,6 +11,7 @@ namespace AppTrackerMVC.Repositories
         void Add(Application application);
 
         void Update(Application application);
+        void Delete(int id);
 
 
     }
