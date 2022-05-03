@@ -31,6 +31,7 @@ namespace AppTrackerMVC
             services.AddTransient<IFirebaseAuthService, FirebaseAuthService>();
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             services.AddTransient<IApplicationRepository, ApplicationRepository>();
+            services.AddTransient<IInterviewRepository, InterviewRepository>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

@@ -1,4 +1,5 @@
 ﻿using AppTrackerMVC.Models;
+using AppTrackerMVC.Models.ViewModels;
 using AppTrackerMVC.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,15 +14,19 @@ namespace AppTrackerMVC.Controllers
     public class ApplicationController : Controller
     {
         private readonly IApplicationRepository _appRepo;
+        private readonly IInterviewRepository _interviewRepo;
 
-        public ApplicationController(IApplicationRepository appRepo)
+        public ApplicationController(IApplicationRepository appRepo, IInterviewRepository interviewRepo)
         {
             _appRepo = appRepo;
+            _interviewRepo = interviewRepo;
            
         }
         // GET: ApplicationController
         public ActionResult Index()
+
         {
+
             int userId = GetCurrentUserId();
           
             List<Application> applications = _appRepo.GetAllApplicationsByUser(userId);
@@ -32,7 +37,16 @@ namespace AppTrackerMVC.Controllers
         public ActionResult Details(int id)
         {
             Application application = _appRepo.GetById(id);
-            return View(application);
+            List<Interview> interviews = _interviewRepo.GetInterviewsByApplicationId(application.Id);
+
+            ApplicationDetailViewModel avm = new ApplicationDetailViewModel()
+            {
+                Application = application,
+                Interviews = interviews,
+                
+            };
+
+            return View(avm);
         }
 
         // GET: ApplicationController/Create
