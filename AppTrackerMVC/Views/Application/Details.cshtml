@@ -60,15 +60,18 @@
         <li class="list-group-item disabled" aria-disabled="true">
             <p> InterviewDate: @interview.InterviewDate </p>
             <p>Additional Info: @interview.AdditionalInfo</p>
-            
+
         </li>
+        <br />
+        <a asp-controller="Interview" asp-action="Edit" asp-route-id="@interview.Id"> Edit This Interview |</a>
+        <a asp-controller="Interview" asp-action="Create"> Add an Interview </a>
     }
 </div>
 
 
-
+<br/>
 <div>
-    <a asp-controller="Interview" asp-action="Create"> Add an Interview |</a>
+    
     @Html.ActionLink("Edit", "Edit", new { Id = Model.Application.Id }) |
     <a asp-action="Index">Back to List</a>
 </div>

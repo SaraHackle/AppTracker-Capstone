@@ -68,14 +68,13 @@ namespace AppTrackerMVC.Repositories
                 {
                     cmd.CommandText = @"
                                      SELECT i.Id AS InterviewId, i.InterviewDate, i.AdditionalInfo, i.ApplicationId, 
-                              a.Id, a.Company, a.Location, a.Description, a.DateApplied, a.Salary,
-                              u.Id, u.UserName, u.FirstName,
-                              u.LastName, u.Email
+                              a.Id, a.Company, a.Location, a.Description, a.DateApplied, a.Salary, a.UserId AS AppUserId
+                             
                          FROM Interview i
                               LEFT JOIN Application a ON a.Id = i.ApplicationId
-                              LEFT JOIN UserProfile u ON a.UserId = u.Id
                               
-                       WHERE a.Id = @Id";
+                              
+                       WHERE i.Id = @Id";
 
                     cmd.Parameters.AddWithValue("@id", id);
 
@@ -100,14 +99,7 @@ namespace AppTrackerMVC.Repositories
                                 Salary = reader.GetString(reader.GetOrdinal("Salary")),
                                 UserId = reader.GetInt32(reader.GetOrdinal("AppUserId")),
 
-                                User = new UserProfile()
-                                {
-                                    Id = reader.GetInt32(reader.GetOrdinal("UserId")),
-                                    UserName = reader.GetString(reader.GetOrdinal("UserName")),
-                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                    LastName = reader.GetString(reader.GetOrdinal("LastName")),
-                                    Email = reader.GetString(reader.GetOrdinal("Email")),
-                                },
+                              
                             },
                         };
                     }
@@ -188,7 +180,7 @@ namespace AppTrackerMVC.Repositories
                             SET 
                                 InterviewDate = @interviewDate, 
                                 AdditionalInfo = @additionalInfo, 
-                                ApplicationId = @applicationId, 
+                                ApplicationId = @applicationId
                               
                             WHERE Id = @id";
 

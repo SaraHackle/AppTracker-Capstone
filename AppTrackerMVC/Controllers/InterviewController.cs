@@ -66,21 +66,32 @@ namespace AppTrackerMVC.Controllers
         // GET: InterviewController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            int userId = GetCurrentUserId();
+            Interview interview = _interviewRepo.GetById(id);
+            List<Application> applications = _appRepo.GetAllApplicationsByUser(userId);
+            InterviewViewModel ivm = new InterviewViewModel()
+            {
+                Interview = interview,
+                Applications = applications
+            };
+            return View(ivm);
         }
 
         // POST: InterviewController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, InterviewViewModel ivm)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _interviewRepo.Update(ivm.Interview);
+
+                return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return RedirectToAction(nameof(Edit), new { id });
+
             }
         }
 
