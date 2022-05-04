@@ -32,6 +32,7 @@ namespace AppTrackerMVC
             services.AddTransient<IUserProfileRepository, UserProfileRepository>();
             services.AddTransient<IApplicationRepository, ApplicationRepository>();
             services.AddTransient<IInterviewRepository, InterviewRepository>();
+            services.AddTransient<ITagRepository, TagRepository>();
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
