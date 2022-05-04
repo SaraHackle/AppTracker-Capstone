@@ -15,11 +15,12 @@ namespace AppTrackerMVC.Controllers
     {
         private readonly IApplicationRepository _appRepo;
         private readonly IInterviewRepository _interviewRepo;
-
-        public ApplicationController(IApplicationRepository appRepo, IInterviewRepository interviewRepo)
+        private readonly ITagRepository _tagRepo;
+        public ApplicationController(IApplicationRepository appRepo, IInterviewRepository interviewRepo, ITagRepository tagRepo)
         {
             _appRepo = appRepo;
             _interviewRepo = interviewRepo;
+            _tagRepo = tagRepo;
            
         }
         // GET: ApplicationController
@@ -38,11 +39,13 @@ namespace AppTrackerMVC.Controllers
         {
             Application application = _appRepo.GetById(id);
             List<Interview> interviews = _interviewRepo.GetInterviewsByApplicationId(application.Id);
+            List<Tag> tags = _tagRepo.GetTagsByApplicationId(application.Id);
 
             ApplicationDetailViewModel avm = new ApplicationDetailViewModel()
             {
                 Application = application,
                 Interviews = interviews,
+                Tags = tags
                 
             };
 

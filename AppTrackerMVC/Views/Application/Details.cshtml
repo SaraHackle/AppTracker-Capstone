@@ -68,6 +68,17 @@
     }
 </div>
 
+<div>
+    @foreach (Tag tag in Model.Tags)
+    {
+        <li class="list-group-item disabled" aria-disabled="true">
+            <p> @tag.TagName </p>
+      
+
+        </li>
+    }
+</div>
+
 
 <br/>
 <div>
