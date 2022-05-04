@@ -63,8 +63,8 @@
 
         </li>
         <br />
-        <a asp-controller="Interview" asp-action="Edit" asp-route-id="@interview.Id"> Edit This Interview |</a>
-        <a asp-controller="Interview" asp-action="Create"> Add an Interview </a>
+        <a asp-controller="Interview" asp-action="Edit" asp-route-id="@interview.Id"> Edit This Interview ||</a>
+        <a asp-controller="Interview" asp-action="Delete" asp-route-id="@interview.Id"> Delete This Interview </a>
     }
 </div>
 
@@ -72,6 +72,7 @@
 <br/>
 <div>
     
-    @Html.ActionLink("Edit", "Edit", new { Id = Model.Application.Id }) |
+    <a asp-controller="Interview" asp-action="Create"> Add an Interview || </a>
+    @Html.ActionLink("Edit", "Edit", new { Id = Model.Application.Id }) ||
     <a asp-action="Index">Back to List</a>
 </div>
