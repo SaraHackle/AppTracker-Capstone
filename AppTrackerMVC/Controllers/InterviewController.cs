@@ -55,7 +55,7 @@ namespace AppTrackerMVC.Controllers
             try
             {
                 _interviewRepo.Add(vm.Interview);
-                return RedirectToAction("Index", "Interview", new { id = vm.Interview.Id });
+                return RedirectToAction("Details", "Application", new { id = vm.Interview.ApplicationId });
             }
             catch
             {
@@ -98,21 +98,23 @@ namespace AppTrackerMVC.Controllers
         // GET: InterviewController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Interview interview = _interviewRepo.GetById(id);
+            return View(interview);
         }
 
         // POST: InterviewController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Interview interview)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _interviewRepo.Delete(id);
+                return RedirectToAction("Index");
             }
             catch
             {
-                return View();
+                return View(interview);
             }
         }
         private int GetCurrentUserId()
