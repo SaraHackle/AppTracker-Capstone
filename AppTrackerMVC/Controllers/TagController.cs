@@ -35,12 +35,15 @@ namespace AppTrackerMVC.Controllers
         }
 
         // GET: TagController/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
             int userId = GetCurrentUserId();
             var avm = new ApplicationDetailViewModel();
             avm.Tags = _tagRepo.GetAllTags();
-            avm.Applications = _appRepo.GetAllApplicationsByUser(userId);
+            avm.Application = _appRepo.GetById(id);
+          
+              
+
         
             return View(avm);
         }
@@ -48,13 +51,14 @@ namespace AppTrackerMVC.Controllers
         // POST: TagController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ApplicationDetailViewModel avm)
+        public ActionResult Create(int id, ApplicationDetailViewModel avm)
         {
             try
             {
+                avm.ApplicationTag.ApplicationId = id;
                 _tagRepo.AddApplicationTag(avm.ApplicationTag);
-                
-                return RedirectToAction("Index", "Application");
+
+                return RedirectToAction("Details", "Application", new { id = id });
             }
             catch (Exception ex)
             {
