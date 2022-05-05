@@ -14,6 +14,8 @@ namespace AppTrackerMVC.Models.ViewModels
         public Interview Interview { get; set; }
 
         public List<Tag> Tags { get; set; }
+        public ApplicationTag ApplicationTag { get; set; }
+       
 
     }
 }

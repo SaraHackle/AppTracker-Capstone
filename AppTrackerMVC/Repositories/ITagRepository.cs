@@ -7,5 +7,6 @@ namespace AppTrackerMVC.Repositories
     {
         public List<Tag> GetAllTags();
         List<Tag> GetTagsByApplicationId(int id);
+        void AddApplicationTag(ApplicationTag appTag);
     }
 }
