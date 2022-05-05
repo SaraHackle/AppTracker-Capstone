@@ -54,7 +54,7 @@
         </dd>
     </dl>
 </div>
-<div>
+
     @foreach (Interview interview in Model.Interviews)
     {
         <li class="list-group-item disabled" aria-disabled="true">
@@ -66,18 +66,20 @@
         <a asp-controller="Interview" asp-action="Edit" asp-route-id="@interview.Id"> Edit This Interview ||</a>
         <a asp-controller="Interview" asp-action="Delete" asp-route-id="@interview.Id"> Delete This Interview </a>
     }
-</div>
 
-<div>
+
+
     @foreach (Tag tag in Model.Tags)
     {
         <li class="list-group-item disabled" aria-disabled="true">
             <p> @tag.TagName </p>
-      
+
 
         </li>
     }
-</div>
+    <a asp-controller="Tag" asp-action="Create"> Add a Tag || </a>
+
+
 
 
 <br/>

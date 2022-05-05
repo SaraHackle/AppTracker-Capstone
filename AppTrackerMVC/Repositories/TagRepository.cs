@@ -94,5 +94,27 @@ namespace AppTrackerMVC.Repositories
 
 
         }
+
+        public void AddApplicationTag(ApplicationTag appTag)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                                        INSERT INTO
+                                        ApplicationTag (TagId, ApplicationId) 
+                                        OUTPUT INSERTED.ID
+                                        VALUES(@tagId, @applicationId)";
+
+                    cmd.Parameters.AddWithValue("@tagId", appTag.TagId);
+                    cmd.Parameters.AddWithValue("@applicationId", appTag.ApplicationId);
+                  
+
+                    appTag.Id = (int)cmd.ExecuteScalar();
+                }
+            }
+        }
     }
 }
