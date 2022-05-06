@@ -39,13 +39,13 @@ namespace AppTrackerMVC.Controllers
         {
             Application application = _appRepo.GetById(id);
             List<Interview> interviews = _interviewRepo.GetInterviewsByApplicationId(application.Id);
-            List<Tag> tags = _tagRepo.GetTagsByApplicationId(application.Id);
+            List<ApplicationTag> appTags = _tagRepo.GetApplicationTagsByApplicationId(application.Id);
 
             ApplicationDetailViewModel avm = new ApplicationDetailViewModel()
             {
                 Application = application,
                 Interviews = interviews,
-                Tags = tags
+                ApplicationTags = appTags
                 
             };
 

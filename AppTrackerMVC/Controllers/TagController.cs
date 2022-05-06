@@ -1,4 +1,5 @@
-﻿using AppTrackerMVC.Models.ViewModels;
+﻿using AppTrackerMVC.Models;
+using AppTrackerMVC.Models.ViewModels;
 using AppTrackerMVC.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -91,17 +92,21 @@ namespace AppTrackerMVC.Controllers
         // GET: TagController/Delete/5
         public ActionResult Delete(int id)
         {
+            
+            ApplicationTag applicationTag = _tagRepo.GetApplicationTagById(id);
             return View();
         }
 
         // POST: TagController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, ApplicationDetailViewModel avm)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+               
+                _tagRepo.DeleteApplicationTag(id);
+                return RedirectToAction("Index", "Application");
             }
             catch
             {

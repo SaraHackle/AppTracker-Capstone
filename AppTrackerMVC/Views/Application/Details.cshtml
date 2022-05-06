@@ -10,12 +10,7 @@
     <h4>Application</h4>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Application.Id)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Application.Id)
-        </dd>
+        
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Application.Company)
         </dt>
@@ -46,46 +41,48 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Application.Salary)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Application.UserId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Application.UserId)
-        </dd>
+        
     </dl>
 </div>
+<br />
+<h2>Interviews</h2>
+    <a asp-controller="Interview" asp-action="Create"> Add an Interview  </a>
+<br />
+@foreach (Interview interview in Model.Interviews)
+{
+    <li class="list-group-item disabled" aria-disabled="true">
+        <p> Interview Date: @interview.InterviewDate </p>
+        <p>Additional Info: @interview.AdditionalInfo</p>
 
-    @foreach (Interview interview in Model.Interviews)
-    {
-        <li class="list-group-item disabled" aria-disabled="true">
-            <p> InterviewDate: @interview.InterviewDate </p>
-            <p>Additional Info: @interview.AdditionalInfo</p>
+    </li>
+  
+    <a asp-controller="Interview" asp-action="Edit" asp-route-id="@interview.Id"> Edit This Interview ||</a>
+    <a asp-controller="Interview" asp-action="Delete" asp-route-id="@interview.Id"> Delete This Interview </a>
 
-        </li>
-        <br />
-        <a asp-controller="Interview" asp-action="Edit" asp-route-id="@interview.Id"> Edit This Interview ||</a>
-        <a asp-controller="Interview" asp-action="Delete" asp-route-id="@interview.Id"> Delete This Interview </a>
-    }
+    <br />
+}
+<br />
 
+<h2>Tags</h2>
+<a asp-controller="Tag" asp-action="Create" asp-route-id="@Model.Application.Id"> Add a Tag </a>
 
-
-    @foreach (Tag tag in Model.Tags)
-    {
-        <li class="list-group-item disabled" aria-disabled="true">
-            <p> @tag.TagName </p>
+@foreach (ApplicationTag applicationTag in Model.ApplicationTags)
+{
+    <li class="list-group-item disabled" aria-disabled="true">
+        <p> @applicationTag.Tag.TagName </p>
 
 
-        </li>
-    }
-    <a asp-controller="Tag" asp-action="Create" asp-route-id="@Model.Application.Id"> Add a Tag || </a>
-
+    </li>
+    <a asp-controller="Tag" asp-action="Delete" asp-route-id="@applicationTag.Id" > Delete this Tag  </a>
+    <br />
+}
 
 
 
-<br/>
+
+<br />
 <div>
-    
-    <a asp-controller="Interview" asp-action="Create"> Add an Interview || </a>
-    @Html.ActionLink("Edit", "Edit", new { Id = Model.Application.Id }) ||
+
+    @Html.ActionLink("Edit this Application", "Edit", new { Id = Model.Application.Id }) ||
     <a asp-action="Index">Back to List</a>
 </div>
