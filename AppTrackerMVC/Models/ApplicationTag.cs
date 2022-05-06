@@ -9,6 +9,7 @@ namespace AppTrackerMVC.Models
     {
         public int Id { get; set; }
         public int ApplicationId { get; set; }
+
         public int TagId { get; set; }
         public Tag Tag { get; set; }
     }

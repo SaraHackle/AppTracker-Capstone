@@ -1,6 +1,7 @@
 ﻿using AppTrackerMVC.Models;
 using AppTrackerMVC.Models.ViewModels;
 using AppTrackerMVC.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace AppTrackerMVC.Controllers
 {
+    [Authorize]
     public class TagController : Controller
     {
         private readonly ITagRepository _tagRepo;
@@ -92,8 +94,9 @@ namespace AppTrackerMVC.Controllers
         // GET: TagController/Delete/5
         public ActionResult Delete(int id)
         {
-            
+
             ApplicationTag applicationTag = _tagRepo.GetApplicationTagById(id);
+            
             return View();
         }
 
@@ -104,7 +107,7 @@ namespace AppTrackerMVC.Controllers
         {
             try
             {
-               
+                
                 _tagRepo.DeleteApplicationTag(id);
                 return RedirectToAction("Index", "Application");
             }

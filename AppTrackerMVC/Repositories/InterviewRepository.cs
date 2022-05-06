@@ -83,25 +83,8 @@ namespace AppTrackerMVC.Repositories
                     var reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        interview = new Interview()
-                        {
-                            Id = reader.GetInt32(reader.GetOrdinal("InterviewId")),
-                            InterviewDate = (DateTime)DbUtils.GetNullableDateTime(reader, "InterviewDate"),
-                            AdditionalInfo = reader.GetString(reader.GetOrdinal("AdditionalInfo")),
-                            ApplicationId = reader.GetInt32(reader.GetOrdinal("ApplicationId")),
-                            Application = new Application()
-                            {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                Company = reader.GetString(reader.GetOrdinal("Company")),
-                                Location = reader.GetString(reader.GetOrdinal("Location")),
-                                Description = reader.GetString(reader.GetOrdinal("Description")),
-                                DateApplied = (DateTime)DbUtils.GetNullableDateTime(reader, "DateApplied"),
-                                Salary = reader.GetString(reader.GetOrdinal("Salary")),
-                                UserId = reader.GetInt32(reader.GetOrdinal("AppUserId")),
-
-                              
-                            },
-                        };
+                        interview = NewInterviewFromReader(reader);
+                       
                     }
                     reader.Close();
 
@@ -158,9 +141,9 @@ namespace AppTrackerMVC.Repositories
                                         OUTPUT INSERTED.ID
                                         VALUES( @interviewDate, @additionalInfo, @applicationId)";
 
-                    cmd.Parameters.AddWithValue("@interviewDate", interview.InterviewDate);
-                    cmd.Parameters.AddWithValue("@additionalInfo", interview.AdditionalInfo);
-                    cmd.Parameters.AddWithValue("@applicationId", interview.ApplicationId);
+                    DbUtils.AddParameter(cmd, "@interviewDate", interview.InterviewDate);
+                    DbUtils.AddParameter(cmd, "@additionalInfo", interview.AdditionalInfo);
+                    DbUtils.AddParameter(cmd, "@applicationId", interview.ApplicationId);
 
 
                     interview.Id = (int)cmd.ExecuteScalar();
@@ -184,10 +167,10 @@ namespace AppTrackerMVC.Repositories
                               
                             WHERE Id = @id";
 
-                    cmd.Parameters.AddWithValue("@interviewDate", interview.InterviewDate);
-                    cmd.Parameters.AddWithValue("@additionalInfo", interview.AdditionalInfo);
-                    cmd.Parameters.AddWithValue("@applicationId", interview.ApplicationId);
-                    cmd.Parameters.AddWithValue("@id", interview.Id);
+                    DbUtils.AddParameter(cmd, "@interviewDate", interview.InterviewDate);
+                    DbUtils.AddParameter(cmd, "@additionalInfo", interview.AdditionalInfo);
+                    DbUtils.AddParameter(cmd, "@applicationId", interview.ApplicationId);
+                    DbUtils.AddParameter(cmd, "@id", interview.Id);
 
 
                     cmd.ExecuteNonQuery();
@@ -207,7 +190,7 @@ namespace AppTrackerMVC.Repositories
                     cmd.CommandText = @"
                      DELETE from Interview
                      WHERE Id = @id ";
-                    cmd.Parameters.AddWithValue("@id", id);
+                    DbUtils.AddParameter(cmd, "@id", id);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -219,19 +202,19 @@ namespace AppTrackerMVC.Repositories
         {
             Interview interview = new Interview()
             {
-                Id = reader.GetInt32(reader.GetOrdinal("InterviewId")),
+                Id = DbUtils.GetInt(reader, "InterviewId"),
                 InterviewDate = (DateTime)DbUtils.GetNullableDateTime(reader, "InterviewDate"),
-                AdditionalInfo = reader.GetString(reader.GetOrdinal("AdditionalInfo")),
-                ApplicationId = reader.GetInt32(reader.GetOrdinal("ApplicationId")),
+                AdditionalInfo = DbUtils.GetString(reader, "AdditionalInfo"),
+                ApplicationId = DbUtils.GetInt(reader, "ApplicationId"),
                 Application = new Application()
                 {
-                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                    Company = reader.GetString(reader.GetOrdinal("Company")),
-                    Location = reader.GetString(reader.GetOrdinal("Location")),
-                    Description = reader.GetString(reader.GetOrdinal("Description")),
+                    Id = DbUtils.GetInt(reader, "Id"),
+                    Company = DbUtils.GetString(reader, "Company"),
+                    Location = DbUtils.GetString(reader, "Location"),
+                    Description = DbUtils.GetString(reader, "Description"),
                     DateApplied = (DateTime)DbUtils.GetNullableDateTime(reader, "DateApplied"),
-                    Salary = reader.GetString(reader.GetOrdinal("Salary")),
-                    UserId = reader.GetInt32(reader.GetOrdinal("AppUserId")),
+                    Salary = DbUtils.GetString(reader, "Salary"),
+                    UserId = DbUtils.GetInt(reader, "AppUserId"),
 
                 },
             };

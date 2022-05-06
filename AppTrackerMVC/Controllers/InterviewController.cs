@@ -1,6 +1,7 @@
 ﻿using AppTrackerMVC.Models;
 using AppTrackerMVC.Models.ViewModels;
 using AppTrackerMVC.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace AppTrackerMVC.Controllers
 {
+    [Authorize]
     public class InterviewController : Controller
     {
         private readonly IInterviewRepository _interviewRepo;

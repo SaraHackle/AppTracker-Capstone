@@ -196,8 +196,8 @@ namespace AppTrackerMVC.Repositories
                                         OUTPUT INSERTED.ID
                                         VALUES(@tagId, @applicationId)";
 
-                    cmd.Parameters.AddWithValue("@tagId", appTag.TagId);
-                    cmd.Parameters.AddWithValue("@applicationId", appTag.ApplicationId);
+                    DbUtils.AddParameter(cmd, "@tagId", appTag.TagId);
+                    DbUtils.AddParameter(cmd, "@applicationId", appTag.ApplicationId);
 
 
                     appTag.Id = (int)cmd.ExecuteScalar();
@@ -215,7 +215,7 @@ namespace AppTrackerMVC.Repositories
                     cmd.CommandText = @"
                      DELETE from ApplicationTag
                      WHERE Id = @id ";
-                    cmd.Parameters.AddWithValue("@id", id);
+                    DbUtils.AddParameter(cmd, "@id", id);
 
                     cmd.ExecuteNonQuery();
                 }

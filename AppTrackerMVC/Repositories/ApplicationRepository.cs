@@ -87,25 +87,10 @@ namespace AppTrackerMVC.Repositories
                     var reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        application = new Application
-                        {
-                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                            Company = reader.GetString(reader.GetOrdinal("Company")),
-                            Location = reader.GetString(reader.GetOrdinal("Location")),
-                            Description = reader.GetString(reader.GetOrdinal("Description")),
-                            DateApplied = (DateTime)DbUtils.GetNullableDateTime(reader, "DateApplied"),
-                            Salary = reader.GetString(reader.GetOrdinal("Salary")),
-                            UserId = reader.GetInt32(reader.GetOrdinal("AppUserId")),
-                            User = new UserProfile()
-                            {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                UserName = reader.GetString(reader.GetOrdinal("UserName")),
-                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
-                                Email = reader.GetString(reader.GetOrdinal("Email")),
-                            },
 
-                        };
+                        application = NewApplicationFromReader(reader);
+
+                        
                     }
                     reader.Close();
 
@@ -128,12 +113,12 @@ namespace AppTrackerMVC.Repositories
                                         OUTPUT INSERTED.ID
                                         VALUES(@company, @location, @description, @dateApplied, @salary, @userId)";
 
-                    cmd.Parameters.AddWithValue("@company", application.Company);
-                    cmd.Parameters.AddWithValue("@location", application.Location);
-                    cmd.Parameters.AddWithValue("@description", application.Description);
-                    cmd.Parameters.AddWithValue("@dateApplied", application.DateApplied);
-                    cmd.Parameters.AddWithValue("@salary", application.Salary);
-                    cmd.Parameters.AddWithValue("@userId", application.UserId);
+                    DbUtils.AddParameter(cmd, "@company", application.Company);
+                    DbUtils.AddParameter(cmd, "@location", application.Location);
+                    DbUtils.AddParameter(cmd, "@description", application.Description);
+                    DbUtils.AddParameter(cmd, "@dateApplied", application.DateApplied);
+                    DbUtils.AddParameter(cmd, "@salary", application.Salary);
+                    DbUtils.AddParameter(cmd, "@userId", application.UserId);
 
                     application.Id = (int)cmd.ExecuteScalar();
                 }
@@ -158,13 +143,13 @@ namespace AppTrackerMVC.Repositories
                                 UserId = @userId
                             WHERE Id = @id";
 
-                    cmd.Parameters.AddWithValue( "@company", application.Company);
-                    cmd.Parameters.AddWithValue("@location", application.Location);
-                    cmd.Parameters.AddWithValue("@description", application.Description);
-                    cmd.Parameters.AddWithValue("@dateApplied", application.DateApplied);
-                    cmd.Parameters.AddWithValue("@salary", application.Salary);
-                    cmd.Parameters.AddWithValue("@userId", application.UserId);
-                    cmd.Parameters.AddWithValue("@id", application.Id);
+                    DbUtils.AddParameter(cmd, "@company", application.Company);
+                    DbUtils.AddParameter(cmd, "@location", application.Location);
+                    DbUtils.AddParameter(cmd, "@description", application.Description);
+                    DbUtils.AddParameter(cmd, "@dateApplied", application.DateApplied);
+                    DbUtils.AddParameter(cmd, "@salary", application.Salary);
+                    DbUtils.AddParameter(cmd, "@userId", application.UserId);
+                    DbUtils.AddParameter(cmd, "@id", application.Id);
 
 
                     cmd.ExecuteNonQuery();
@@ -184,7 +169,7 @@ namespace AppTrackerMVC.Repositories
                     cmd.CommandText = @"
                      DELETE from Application
                      WHERE Id = @id ";
-                    cmd.Parameters.AddWithValue("@id", id);
+                    DbUtils.AddParameter(cmd, "@id", id);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -196,20 +181,20 @@ namespace AppTrackerMVC.Repositories
         {
             Application application = new Application()
             {
-                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                Company = reader.GetString(reader.GetOrdinal("Company")),
-                Location = reader.GetString(reader.GetOrdinal("Location")),
-                Description = reader.GetString(reader.GetOrdinal("Description")),
+                Id = DbUtils.GetInt(reader, "Id"),
+                Company = DbUtils.GetString(reader, "Company"),
+                Location = DbUtils.GetString(reader,"Location"),
+                Description = DbUtils.GetString(reader, "Description"),
                 DateApplied = (DateTime)DbUtils.GetNullableDateTime(reader, "DateApplied"),
-                Salary= reader.GetString(reader.GetOrdinal("Salary")),
-                UserId = reader.GetInt32(reader.GetOrdinal("AppUserId")),
+                Salary= DbUtils.GetString(reader, "Salary"),
+                UserId = DbUtils.GetInt(reader, "AppUserId"),
                 User= new UserProfile()
                 {
-                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                    UserName = reader.GetString(reader.GetOrdinal("UserName")),
-                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                    LastName = reader.GetString(reader.GetOrdinal("LastName")),
-                    Email = reader.GetString(reader.GetOrdinal("Email")),
+                    Id = DbUtils.GetInt(reader, "Id"),
+                    UserName = DbUtils.GetString(reader, "UserName"),
+                    FirstName = DbUtils.GetString(reader,"FirstName"),
+                    LastName = DbUtils.GetString(reader,"LastName"),
+                    Email = DbUtils.GetString(reader, "Email"),
                 },
                 
             };
